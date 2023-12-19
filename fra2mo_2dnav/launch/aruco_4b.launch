@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="camera" default="/depth_camera/depth_camera"/>
+    <arg name="markerId"        default="115"/>
+    <arg name="camera_frame"       default="camera_depth_optical_frame"/>
+        <include file="$(find aruco_ros)/launch/usb_cam_aruco.launch">
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="markerId"        value="$(arg markerId)"/>
+    <arg name="camera_frame"       value="$(arg camera_frame)"/>
+    </include>
+
+    <node name="tf_nav_node" pkg="fra2mo_2dnav" type="tf_nav" output="screen"/>
+
+    <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+        <remap from="image" to="/aruco_single/result"/>
+        <param name="autosize" value="true" />
+    </node>
+    	
+</launch>
